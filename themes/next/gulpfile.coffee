@@ -8,6 +8,8 @@ yaml = require('js-yaml')
 
 gulp.task 'lint', ->
   return gulp.src([
+    './source/js/src/Ball.js',
+    './source/js/src/custom.js',
     './source/js/src/utils.js',
     './source/js/src/motion.js',
     './source/js/src/hook-duoshuo.js',
