@@ -1,17 +1,18 @@
 ---
 title: mongodb常用命令及基础参数信息
-comments: true
-reward: false
-date: 2017-08-11 14:26:59
-update:
-description:
 tags:
- - 数据库
- - mongodb
+  - 数据库
+  - mongodb
 categories:
- - 数据库
- - mongodb
+  - 数据库
+  - mongodb
+comments: true
+reward: true
+date: 2017-08-11 14:26:59
+description:
+update:
 ---
+
 
 ## 概述
 
@@ -118,3 +119,153 @@ mongod.exe --bind_ip yourIPadress --logpath "C:\data\dbConf\mongodb.log" --logap
 | Binary Data | 二进制数据。用于存储二进制数据。 |
 | Code | 代码类型。用于在文档中存储 JavaScript 代码。 |
 | Regular expression | 正则表达式类型。用于存储正则表达式。 |
+
+
+这里对mongodb的启动及基本概念信息进行了简略的描述，如有疑问欢迎交流。接下来就继续进行下一步，对数据库进行操作处理。
+
+## mongodb的基础操作
+
+在数据库服务开启后，然后就是连接数据库，之后在进行各种操作。
+
+### 连接数据库
+
+连接数据库语法：
+
+```stylus
+mongodb://[username:password@]host1[:port1][,host2[:port2],...[,hostN[:portN]]][/[database][?options]]
+```
+
+这里简单介绍分析下，
+`mongodb://`： 固定形式，必须的（记住就好了，就像 `http:// or https://` 一样（虽然我们在浏览器输地址的时候很多时候不加，但那是浏览器帮我们添加上去的））；
+`username:password@`： 就是用户名和密码，如果数据库未设置用户名密码则该参数不用写；
+`host`： 必须指定的，指定所要连接数据库的位置；
+`post`： 端口号， 默认27017；
+`/database`： 所要连接的数据库名称，如未指定默认打开 `test` 数据库
+
+几个示例地址：
+
+```stylus?linenums
+'mongodb://localhost'  //本地mongodb的test数据库， 端口号为27017
+'mongodb://admin:123456@127.0.0.1:27000/app'  //本地mongodb的app数据库， 端口号为27000，用户名admin 密码123456
+```
+
+### 创建数据库
+
+显示当前所有数据库
+
+```stylus
+show dbs  	//显示当前所有数据库
+db		//显示当前操作的数据库
+```
+
+创建数据库
+
+```stylus
+use DATABASE //如果DATABASE数据库存在则切换到该数据库，如果不存在则创建并切换到该数据库
+```
+注：如果创建了一个数据库但是未添加数据，使用 `show` 操作不会显示这个数据库，需要插入数据后数据库才能显示出来，
+
+### 删除数据库
+
+首先切换工作环境到需要删除的数据库下然后执行以下命令即可删除该数据库
+
+```stylus
+db.dropDatabase()	//删除当前数据库，清除该数据库内所有数据
+```
+
+注：执行以上命令后，当前数据库的数据都被清空，执行 `show dbs` 命令当前数据库已不存在，但是当前的数据库操作环境仍然是该数据库，即此时执行插入数据等操作，数据仍能被插入，而且该数据库会在执行 `show dbs` 时会重新输现在数据库列表里（个人理解：执行以上操作，是将数据全部清空。在切换数据库环境之前该数据库仍以某种形式存在，所以当再次插入数据后，有了数据该数据库就又存在，呼应以上创建数据库时的状态）。所以再删除数据库后，在进行下一步操作之前，需切换数据库环境。
+
+删除数据库的一个集合，可以执行以下命令
+
+```stylus
+db.collection.drop()	//删除当前数据库的 collection 集合
+
+show tables		//显示当前数据库的所有 collection 查看当前存在的集合
+```
+
+### 插入数据
+
+命令：
+
+```stylus
+db.collection.insert()		//插入数据命令
+
+db.collection.insert({
+	name: 'Chris',
+	url: 'https://dclcats.github.io'
+});				//插入了一条数据，包含字段 name 和 url
+```
+
+### 更新数据
+
+更新数据可以使用 `update()` 和 `save()`方法 以下简单介绍此两种方法
+
+#### update()
+
+```stylus
+db.collection.update(
+	<query>,		//update的查询条件，类似sql update查询内where后面的。
+	<update>,		//update的对象和一些更新的操作符（如$,$inc...）等，也可以理解为sql update查询内set后面的
+	{
+		upsert: <boolean>,	//可选，这个参数的意思是，如果不存在update的记录，是否插入objNew,true为插入，默认是false，不插入。
+		multi: <boolean>,	//可选，mongodb 默认是false,只更新找到的第一条记录，如果这个参数为true,就把按条件查出来多条记录全部更新。
+		writeConcern: <document>	//可选，抛出异常的级别。
+	}
+);
+
+db.collection.update({'title':'ABC'},{$set:{'title':'Mongodb'}},{multi:true});	//更新集合collection下所有的title字段为‘ABC’ 的数据，修改其title字段为 ‘Mongodb’
+```
+
+#### save()
+
+```stylus
+db.collection.save(
+   <document>,	//文档数据。
+   {
+     writeConcern: <document>	//可选，抛出异常的级别。
+   }
+);
+
+db.collection.update({"_id" : ObjectId("56064f89ade2f21f36b03136"), 'title':'ABC'});	//存在_id字段则更新该数据为文档数据值
+
+db.collection.update('title':'ABC'});	//不存在_id字段则添加该文档数据至集合
+
+```
+
+### 删除文档
+
+```stylus
+db.collection.remove(
+   <query>,	//（可选）删除的文档的条件。
+   {
+     justOne: <boolean>,	//（可选）如果设为 true 或 1，则只删除一个文档。
+     writeConcern: <document>	//（可选）抛出异常的级别。
+   }
+);
+```
+
+### 查询文档
+
+```stylus
+db.collection.find(query, projection) //query 可选，使用查询操作符指定查询条件； projection 可选，使用投影操作符指定返回的键。查询时返回文档中所有键值， 只需省略该参数即可（默认省略）。
+
+db.col.find().pretty()  //pretty() 以格式化的形式显示所有文档
+```
+
+
+| 操作 | 格式 | 范例 | RDBMS中的类似语句 |
+| --- | --- | --- | --- |
+| 等于 | {key: value} | db.col.find({"by":"hello world"}).pretty() | where by = 'hello world' |
+| 小于 | {key:{$lt:value}} | db.col.find({"likes":{$lt:50}}).pretty() | where likes < 50 |
+| 小于或等于 | {key:{$lte:value}} | db.col.find({"likes":{$lte:50}}).pretty() | where likes <= 50 |
+| 大于 | {key:{$gt:value}} | db.col.find({"likes":{$gt:50}}).pretty() | where likes > 50 |
+| 大于或等于 | {key:{$gte:value}} | db.col.find({"likes":{$gte:50}}).pretty() | where likes >= 50 |
+| 不等于 | {key:{$ne:value}} | db.col.find({"likes":{$ne:50}}).pretty() | where likes != 50 |
+
+#### and 操作 和 or操作
+
+```stylus
+db.collection.find({likes: {$gte: 100}, $or: [{name: 'Chris'}, {name: 'Isaac'}]}) //查找likes大于等于100 而且 name为Chris或者Isaac
+```
+
+至此，基础操作增、删、改、查已初步了解，接下来就是应用，在应用中继续深入学习。持续更新中...
