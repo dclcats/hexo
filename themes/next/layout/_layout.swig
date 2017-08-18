@@ -22,7 +22,10 @@
 
   <div class="{{ container_class }} {% block page_class %}{% endblock %} ">
 
-    <canvas id="canvas" width="100%" height="100%"></canvas>
+    {% if false %}
+      <canvas id="canvas" width="100%" height="100%"></canvas>
+    {% endif %}
+    
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
