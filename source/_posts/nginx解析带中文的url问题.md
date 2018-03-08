@@ -2,12 +2,13 @@
 layout: posts
 title: nginx解析带中文的url问题
 date: 2018-03-08 11:27:39
-tags:
+tags: nginx,解析,中文,url
 comments: true
 reward: true
 update:
 description: nginx解析带中文的url问题
-categories: nginx,解析,中文,url
+categories: 
+ - 服务器
 ---
 
 

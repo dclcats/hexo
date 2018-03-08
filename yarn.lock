@@ -925,7 +925,7 @@ hexo-fs@^0.2.0:
     escape-string-regexp "^1.0.5"
     graceful-fs "^4.1.4"
 
-hexo-generator-archive@^0.1.4:
+hexo-generator-archive@^0.1.5:
   version "0.1.5"
   resolved "https://registry.yarnpkg.com/hexo-generator-archive/-/hexo-generator-archive-0.1.5.tgz#a979214cdddee2693e0551809c294bedadbb69b3"
   dependencies:
@@ -946,7 +946,7 @@ hexo-generator-feed@^1.2.0:
     nunjucks "^3.0.0"
     object-assign "^4.1.1"
 
-hexo-generator-index@^0.2.0:
+hexo-generator-index@^0.2.1:
   version "0.2.1"
   resolved "https://registry.yarnpkg.com/hexo-generator-index/-/hexo-generator-index-0.2.1.tgz#9042229fcac79aaf700575da19332bf3f7ee5c5d"
   dependencies:
