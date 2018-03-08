@@ -1,4 +1,5 @@
 (function() {
+        return;
         var canvas = document.getElementById('canvas'),
         ctx = canvas.getContext('2d'),
         length = 150,
