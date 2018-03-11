@@ -145,8 +145,8 @@ font:
 social:
   # LinkLabel: Link
   GitHub: https://github.com/dclcats/
-  博客: https://www.cnblogs.com/dongcanliang/
-  微博: http://weibo.com/u/3021649775/
+  cnblogs: https://www.cnblogs.com/dongcanliang/
+  博客: http://blog.chriz.site
   简书: http://www.jianshu.com/u/c0952c41735c/
 
 
@@ -330,9 +330,9 @@ han: false
 
 # changyan
 changyan:
-  enable: false
-  appid:
-  appkey:
+  enable: true
+  appid: cytvyWseh
+  appkey: prod_0c18088ad37b70367155eae41be2df8f
 
 # Support for youyan comments system.
 # You can get your uid from http://www.uyan.cc
@@ -340,7 +340,7 @@ changyan:
 
 # Support for LiveRe comments system.
 # You can get your uid from https://livere.com/insight/myCode (General web site)
-livere_uid: MTAyMC8yODMzNy80OTA5
+# livere_uid: MTAyMC8yODMzNy80OTA5
 
 
 # Baidu Share
@@ -418,8 +418,8 @@ vkontakte_api:
 # You can visit https://leancloud.cn get AppID and AppKey.
 leancloud_visitors:
   enable: true
-  app_id: 8OmkeWNU2zJdUFBbsYcytfzh-gzGzoHsz
-  app_key: Va7MHRFeECzY0Y3ulYOYiwwT
+  app_id: wy5LpnMLuruWVTKsGWnbRK54-gzGzoHsz
+  app_key: 20UmJPJyyAcnKpA6QrF6HfM5
 
 # Show PV/UV of the website/page with busuanzi.
 # Get more information on http://ibruce.info/2015/04/04/busuanzi/
