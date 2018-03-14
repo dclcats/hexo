@@ -1,10 +1,13 @@
 ---
 title: {{ title }}
+url: {{ title }}
 date: {{ date }}
-update: 
+newsauthor: true
 description: 
 tags: 
+ - 
 categories: 
+ - 
 comments: true
-reward: false
+reward: true
 ---
