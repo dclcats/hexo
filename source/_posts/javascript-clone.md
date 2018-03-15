@@ -11,7 +11,6 @@ tags:
  - "深拷贝&浅拷贝"
 categories: 
  - front-end
- - JavaScript
 comments: true
 reward: true
 ---

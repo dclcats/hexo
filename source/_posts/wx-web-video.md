@@ -7,12 +7,9 @@ description: 安卓下微信内置浏览器视频报解析错误
 tags:
   - front-end
   - javascript
-  - android
-  - 微信
   - video
 categories:
   - front-end
-  - JavaScript
 comments: true
 reward: false
 date: 2017-05-10 15:52:06

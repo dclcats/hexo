@@ -8,7 +8,6 @@ tags:
   - javascript
 categories:
   - front-end
-  - JavaScript
 comments: true
 reward: false
 date: 2017-08-07 10:45:12

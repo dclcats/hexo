@@ -9,7 +9,6 @@ tags:
   - 异步请求
 categories:
   - front-end
-  - JavaScript
 comments: true
 reward: true
 date: 2017-04-26 14:26:57

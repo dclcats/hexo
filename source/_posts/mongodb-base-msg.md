@@ -8,7 +8,6 @@ tags:
   - mongodb
 categories:
   - 数据库
-  - mongodb
 comments: true
 reward: true
 date: 2017-08-11 14:26:59

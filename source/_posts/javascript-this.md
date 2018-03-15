@@ -11,11 +11,9 @@ description: this指向问题分析、总结，包括箭头函数内部的this�
 tags:  
   - front-end
   - javascript
-  - this指向
   - 箭头函数
 categories:
   - front-end
-  - JavaScript
 ---
 
 ## 前言
