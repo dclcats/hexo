@@ -54,7 +54,7 @@ fetch 的url 参数是必须的，option参数可选
 
 + method：get | post 等方法
 + headers：任何你想加到请求中的头，可以是对象字面量的方式也可以是通过 Headers
-+ body：发送给服务器的信息， 可以是JSON, ufferSource, FormData, URLSearchParams, 或 USVString。注意get和HEAD请求没有body
++ body：发送给服务器的信息， 可以是JSON, BufferSource, FormData, URLSearchParams, 或 USVString。注意get和HEAD请求没有body
 + mode：请求模式， 可选值为 cors, no-cors, same-origin, 或 navigate，cors-with-forced-preflight。默认值应该为 cors。但在Chrome中，Chrome 47 之前的版本默认值为 no-cors ，自Chrome 47起，默认值为same-origin。--MDN Request
 + credentials：在请求中是否需要凭据。在请求数据中根据是否需要携带Cookie 来设置其值，可选值为omit（在请求中不懈怠认证凭据（Cookie））, same-origin（在同原站点下包含凭据）, 或 include（对所有网站包含认证凭据）
 + cache：如何处理缓存，可取值有 default | no-store | no-cache | reload | force-cache | only-if-cached
