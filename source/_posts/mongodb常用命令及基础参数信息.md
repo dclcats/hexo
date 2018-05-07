@@ -1,5 +1,7 @@
 ---
 title: mongodb常用命令及基础参数信息
+url: mongodb-base-msg
+layout: posts
 tags:
   - 数据库
   - mongodb

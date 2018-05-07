@@ -68,6 +68,13 @@ pagination_dir: page
 ## Themes: https://hexo.io/themes/
 theme: hexo-theme-next
 
+leancloud_counter_security:
+  enable_sync: true
+  app_id: wy5LpnMLuruWVTKsGWnbRK54-gzGzoHsz
+  app_key: 20UmJPJyyAcnKpA6QrF6HfM5
+  username: chris
+  password: lc135792468
+
 feed:
   type: atom
   path: atom.xml
@@ -77,7 +84,8 @@ feed:
 
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
-# deploy:
+deploy:
+  - type: leancloud_counter_security_sync
 #   type: git
 #   repo: https://github.com/dclcats/dclcats.github.io.git
 #   branch: master
