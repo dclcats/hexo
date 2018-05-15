@@ -2,10 +2,6 @@
 title: mongodb常用命令及基础参数信息
 url: mongodb-base-msg
 layout: posts
-<<<<<<< HEAD:source/_posts/mongodb常用命令及基础参数信息.md
-=======
-newsauthor: true
->>>>>>> ef70687bba13c1b0cc8a863b7fba0e55db22eff5:source/_posts/mongodb-base-msg.md
 tags:
   - 数据库
   - mongodb

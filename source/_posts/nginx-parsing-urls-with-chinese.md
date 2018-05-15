@@ -2,10 +2,7 @@
 layout: posts
 title: nginx解析带中文的url问题
 url: nginx-parsing-urls-with-chinese
-<<<<<<< HEAD:source/_posts/nginx解析带中文的url问题.md
-=======
 newsauthor: false
->>>>>>> ef70687bba13c1b0cc8a863b7fba0e55db22eff5:source/_posts/nginx-parsing-urls-with-chinese.md
 date: 2018-03-08 11:27:39
 tags: nginx
 comments: true
