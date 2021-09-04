@@ -9,7 +9,7 @@ env:
   GIT_USER: Chris
   GIT_EMAIL: chichucan@126.com
   THEME_REPO: theme-next/hexo-theme-next
-  THEME_BRANCH: v7.8.0
+  THEME_BRANCH: master
   DEPLOY_REPO: dclcats/hexo
   DEPLOY_BRANCH: master
 
