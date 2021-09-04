@@ -4,8 +4,11 @@
   "private": true,
   "scripts": {
     "build": "hexo clean & hexo g",
+    "build:config": "npm run update:theme:config && npm run build",
     "deploy": "hexo clean & hexo deploy",
-    "server": "npm run update:theme:config && hexo s",
+    "deploy:config": "npm run update:theme:config && npm run deploy",
+    "server": "hexo s",
+    "server:config": "npm run update:theme:config && npm run server",
     "update:theme:config": "cp _config.theme-next.yml themes/hexo-theme-next/_config.yml",
     "reset:theme": "cd themes/hexo-theme-next && git reset --hard HEAD",
     "general": "hexo g"
