@@ -29,12 +29,12 @@ jobs:
           submodules: true  # Fetch hexo themes (true OR recursive)
           fetch-depth: 0    # Fetch all history for .GitInfo and .Lastmod
 
-      - name: Checkout theme repo
-        uses: actions/checkout@v2
-        with:
-          repository: ${{ env.THEME_REPO }}
-          ref: ${{ env.THEME_BRANCH }}
-          path: themes/hexo-theme-next
+      # - name: Checkout theme repo
+      #   uses: actions/checkout@v2
+      #   with:
+      #     repository: ${{ env.THEME_REPO }}
+      #     ref: ${{ env.THEME_BRANCH }}
+      #     path: themes/hexo-theme-next
 
       - name: Use Node.js ${{ matrix.node_version }}
         uses: actions/setup-node@v1
