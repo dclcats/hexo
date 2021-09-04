@@ -5,7 +5,8 @@ url: build-nginx-php-server
 date: 2018-03-08 10:18:57
 tags:
 comments: true
-reward: true
+reward_settings:
+  enable: true
 update:
 description: 
 categories: 

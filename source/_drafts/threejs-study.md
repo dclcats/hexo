@@ -2,7 +2,8 @@
 title: threejs 学习总结
 url: threejs-study
 comments: true
-reward: false
+reward_settings:
+  enable: false
 date: 2017-06-22 10:43:03
 update:
 description:

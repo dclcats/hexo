@@ -14,7 +14,8 @@ categories:
  - front-end
  - JavaScript
 comments: true
-reward: false
+reward_settings:
+  enable: false
 ---
 
 ### 关于 this

@@ -11,7 +11,8 @@ tags:
 categories:
   - front-end
 comments: true
-reward: false
+reward_settings:
+  enable: false
 date: 2017-05-10 15:52:06
 update:
 ---

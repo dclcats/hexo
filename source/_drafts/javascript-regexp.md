@@ -2,7 +2,8 @@
 title: JavaScript之正则表达式探究
 url: javascript-regexp
 comments: true
-reward: true
+reward_settings:
+  enable: true
 date: 2017-08-16 10:46:23
 update:
 description: JavaScript之正则表达式探究

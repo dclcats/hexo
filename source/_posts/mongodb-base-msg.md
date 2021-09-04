@@ -8,7 +8,8 @@ tags:
 categories:
   - 数据库
 comments: true
-reward: true
+reward_settings:
+  enable: true
 date: 2017-08-11 14:26:59
 description:
 update:

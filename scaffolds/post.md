@@ -9,5 +9,6 @@ tags:
 categories: 
  - 
 comments: true
-reward: false
+reward_settings:
+  enable: false
 ---

@@ -2,7 +2,8 @@
 title: 近期问题回顾与分析
 url: summary
 comments: true
-reward: false
+reward_settings:
+  enable: false
 date: 2017-09-30 13:24:09
 update:
 description:

@@ -8,7 +8,8 @@ tags:
 categories:
   - javascript
 comments: true
-reward: true
+reward_settings:
+  enable: true
 date: 2018-03-27 14:18:20
 description:
 ---

@@ -12,7 +12,8 @@ tags:
 categories: 
  - front-end
 comments: true
-reward: true
+reward_settings:
+  enable: true
 ---
 
 深拷贝&浅拷贝，说起来都明白，但是说不出所以然。今天就系统的整理下思绪，一点点的将其分析出所以然

@@ -2,7 +2,8 @@
 title: ES6 学习笔记 系列文章目录
 url: es6-study-list
 comments: true
-reward: false
+reward_settings:
+  enable: false
 date: 2017-08-04 10:00:18
 description:
 tags:

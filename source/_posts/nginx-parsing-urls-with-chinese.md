@@ -6,7 +6,8 @@ newsauthor: false
 date: 2018-03-08 11:27:39
 tags: nginx
 comments: true
-reward: true
+reward_settings:
+  enable: true
 update: 2018-03-15 11:27:39
 categories: 
  - 服务器

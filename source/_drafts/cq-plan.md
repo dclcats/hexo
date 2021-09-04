@@ -4,7 +4,8 @@ url: cq-plan
 categories:
   - 生活
 comments: true
-reward: false
+reward_settings:
+  enable: false
 date: 2017-08-22 13:55:06
 description:
 tags:

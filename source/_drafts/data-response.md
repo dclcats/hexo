@@ -2,7 +2,8 @@
 title: 数据响应系统
 url: data-response
 comments: true
-reward: false
+reward_settings:
+  enable: false
 date: 2017-08-21 15:23:50
 update:
 description:

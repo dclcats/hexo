@@ -4,7 +4,8 @@ url: javascript-this
 layout: post
 newsauthor: true
 comments: true
-reward: true
+reward_settings:
+  enable: true
 date: 2017-06-19 15:14:01
 update:
 description: this指向问题分析、总结，包括箭头函数内部的this指向

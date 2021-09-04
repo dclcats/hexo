@@ -3,7 +3,8 @@ title: next下使用leancloud统计阅读量
 url: leancloud-counter
 newsauthor: false
 comments: true
-reward: false
+reward_settings:
+  enable: false
 date: 2018-03-14 17:17:04
 description:
 tags:

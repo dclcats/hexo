@@ -2,7 +2,8 @@
 title: ES6 学习笔记 （一）
 url: es6-study-1
 comments: true
-reward: false
+reward_settings:
+  enable: false
 date: 2017-08-04 10:09:34
 description:
 tags:

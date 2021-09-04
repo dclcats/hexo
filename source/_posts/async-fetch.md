@@ -10,7 +10,8 @@ tags:
 categories:
   - front-end
 comments: true
-reward: true
+reward_settings:
+  enable: true
 date: 2017-04-26 14:26:57
 description:
 update:

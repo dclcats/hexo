@@ -2,7 +2,8 @@
 title: git学习笔记-草稿版1
 url: git-study-1
 comments: true
-reward: false
+reward_settings:
+  enable: false
 date: 2017-08-31 16:08:11
 update:
 description:
