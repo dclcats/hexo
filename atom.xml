@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Chris&#39;s blog</title>
+  
+  
+  <link href="/hexo/atom.xml" rel="self"/>
+  
+  <link href="https://dclcats.github.io/hexo/"/>
+  <updated>2021-09-04T16:42:49.604Z</updated>
+  <id>https://dclcats.github.io/hexo/</id>
+  
+  <author>
+    <name>Chris</name>
+    
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>阻止移动端浏览器下拉橡皮筋效果（下拉滚动露底）</title>
+    <link href="https://dclcats.github.io/hexo/2018/04/25/prevent-wechat-rubber-banding/"/>
+    <id>https://dclcats.github.io/hexo/2018/04/25/prevent-wechat-rubber-banding/</id>
+    <published>2018-04-25T09:27:25.000Z</published>
+    <updated>2021-09-04T16:42:49.604Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;最近项目有个需求：需要移动端浏览器下的橡皮筋效果，但是页面内部的存在&lt;code&gt;div&lt;/code&gt;框需要存在滚动。由此，遇到的问题与解决过程，记录如下。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="front-end" scheme="https://dclcats.github.io/hexo/categories/front-end/"/>
+    
+    
+      <category term="橡皮筋效果" scheme="https://dclcats.github.io/hexo/tags/%E6%A9%A1%E7%9A%AE%E7%AD%8B%E6%95%88%E6%9E%9C/"/>
+    
+      <category term="移动端浏览器" scheme="https://dclcats.github.io/hexo/tags/%E7%A7%BB%E5%8A%A8%E7%AB%AF%E6%B5%8F%E8%A7%88%E5%99%A8/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>vue&amp;webpack多页面配置</title>
+    <link href="https://dclcats.github.io/hexo/2018/04/13/vue-webpack-multiple-config/"/>
+    <id>https://dclcats.github.io/hexo/2018/04/13/vue-webpack-multiple-config/</id>
+    <published>2018-04-13T05:30:55.000Z</published>
+    <updated>2021-09-04T16:42:49.604Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;最近由于项目需求，选择使用vue框架，webpack打包直接使用的vue-cli，因为需要多页面而vue-cli只有单页面，所以就决定修改vue-cli的配置文件来满足开发需求。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="frontend" scheme="https://dclcats.github.io/hexo/categories/frontend/"/>
+    
+    
+      <category term="javascript" scheme="https://dclcats.github.io/hexo/tags/javascript/"/>
+    
+      <category term="vue" scheme="https://dclcats.github.io/hexo/tags/vue/"/>
+    
+      <category term="webpack" scheme="https://dclcats.github.io/hexo/tags/webpack/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>next下使用leancloud统计阅读量</title>
+    <link href="https://dclcats.github.io/hexo/2018/03/14/leancloud-counter/"/>
+    <id>https://dclcats.github.io/hexo/2018/03/14/leancloud-counter/</id>
+    <published>2018-03-14T09:17:04.000Z</published>
+    <updated>2021-09-04T16:42:49.604Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h3&gt;&lt;p&gt;好久没写博客了，最近将博客迁至自己的服务器下。然后发现之前使用leancloud统计阅读量，现在不能使用了，出现了各种报错。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="blog搭建" scheme="https://dclcats.github.io/hexo/categories/blog%E6%90%AD%E5%BB%BA/"/>
+    
+    
+      <category term="next" scheme="https://dclcats.github.io/hexo/tags/next/"/>
+    
+      <category term="leancloud" scheme="https://dclcats.github.io/hexo/tags/leancloud/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>nginx解析带中文的url问题</title>
+    <link href="https://dclcats.github.io/hexo/2018/03/08/nginx-parsing-urls-with-chinese/"/>
+    <id>https://dclcats.github.io/hexo/2018/03/08/nginx-parsing-urls-with-chinese/</id>
+    <published>2018-03-08T03:27:39.000Z</published>
+    <updated>2021-09-04T16:42:49.604Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h3&gt;&lt;p&gt;自己搭了服务器之后进行博客转移，发现文章详情页面一片的404，甚是困惑。因为自己的服务器是nginx配置的，遂从此入手，发现nginx默认是不支持中文url的，而nginx支持多种编码方式，遂从此入手有以下解决方案。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="服务器" scheme="https://dclcats.github.io/hexo/categories/%E6%9C%8D%E5%8A%A1%E5%99%A8/"/>
+    
+    
+      <category term="nginx" scheme="https://dclcats.github.io/hexo/tags/nginx/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>移动端页面输入底部被键盘遮挡问题</title>
+    <link href="https://dclcats.github.io/hexo/2017/08/17/web-mobile-input/"/>
+    <id>https://dclcats.github.io/hexo/2017/08/17/web-mobile-input/</id>
+    <published>2017-08-17T05:31:25.000Z</published>
+    <updated>2021-09-04T16:42:49.604Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;概述&quot;&gt;&lt;a href=&quot;#概述&quot; class=&quot;headerlink&quot; title=&quot;概述&quot;&gt;&lt;/a&gt;概述&lt;/h2&gt;&lt;p&gt;近期有个移动端页面的项目，存在需要用户输入的表单信息。因为页面不存在滑动（通过&lt;code&gt;overflow&lt;/code&gt;设为&lt;code&gt;hidden&lt;/code&gt;的方式），所以在点击&lt;code&gt;input&lt;/code&gt;标签输入信息时，在安卓机下键盘会遮挡页面底部内容，当点击键盘时，焦点所在的 &lt;code&gt;input&lt;/code&gt;标签才会显示在视区里。在IOS不存在此问题（在软键盘弹出时，页面会自动顶上去），存在滑动的页面里也不存在该问题。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="front-end" scheme="https://dclcats.github.io/hexo/categories/front-end/"/>
+    
+    
+      <category term="front-end" scheme="https://dclcats.github.io/hexo/tags/front-end/"/>
+    
+      <category term="input" scheme="https://dclcats.github.io/hexo/tags/input/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>mongodb常用命令及基础参数信息</title>
+    <link href="https://dclcats.github.io/hexo/2017/08/11/mongodb-base-msg/"/>
+    <id>https://dclcats.github.io/hexo/2017/08/11/mongodb-base-msg/</id>
+    <published>2017-08-11T06:26:59.000Z</published>
+    <updated>2021-09-04T16:42:49.604Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;概述&quot;&gt;&lt;a href=&quot;#概述&quot; class=&quot;headerlink&quot; title=&quot;概述&quot;&gt;&lt;/a&gt;概述&lt;/h2&gt;&lt;p&gt;记录windows下mongodb的安装和简单使用&lt;/p&gt;
+&lt;p&gt;mongodb下载地址： &lt;a href=&quot;https://www.mongodb.com/download-center#community&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;https://www.mongodb.com/download-center#community&lt;/a&gt;&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="数据库" scheme="https://dclcats.github.io/hexo/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
+    
+    
+      <category term="数据库" scheme="https://dclcats.github.io/hexo/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
+    
+      <category term="mongodb" scheme="https://dclcats.github.io/hexo/tags/mongodb/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>移动端实现拖动操作</title>
+    <link href="https://dclcats.github.io/hexo/2017/08/07/web-mobile-drag/"/>
+    <id>https://dclcats.github.io/hexo/2017/08/07/web-mobile-drag/</id>
+    <published>2017-08-07T02:45:12.000Z</published>
+    <updated>2021-09-04T16:42:49.604Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;近期有个项目需求，需要用到拖动事件。由于不需要考虑IE8等低端浏览器的兼容性， 所以想到HTML5中的&lt;code&gt;drag&lt;/code&gt;事件， 但是发现移动端 &lt;code&gt;android &amp;amp; IOS&lt;/code&gt; 并不支持 &lt;code&gt;drag&lt;/code&gt; 事件。所有新事物的产生都不是偶然， 所以决定自己去实现一个页面元素的拖动。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="front-end" scheme="https://dclcats.github.io/hexo/categories/front-end/"/>
+    
+    
+      <category term="front-end" scheme="https://dclcats.github.io/hexo/tags/front-end/"/>
+    
+      <category term="javascript" scheme="https://dclcats.github.io/hexo/tags/javascript/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>this 指向详细解析（箭头函数）</title>
+    <link href="https://dclcats.github.io/hexo/2017/06/19/javascript-this/"/>
+    <id>https://dclcats.github.io/hexo/2017/06/19/javascript-this/</id>
+    <published>2017-06-19T07:14:01.000Z</published>
+    <updated>2021-09-04T16:42:49.600Z</updated>
+    
+    <summary type="html">
+    
+      this指向问题分析、总结，包括箭头函数内部的this指向
+    
+    </summary>
+    
+      <category term="front-end" scheme="https://dclcats.github.io/hexo/categories/front-end/"/>
+    
+    
+      <category term="front-end" scheme="https://dclcats.github.io/hexo/tags/front-end/"/>
+    
+      <category term="javascript" scheme="https://dclcats.github.io/hexo/tags/javascript/"/>
+    
+      <category term="箭头函数" scheme="https://dclcats.github.io/hexo/tags/%E7%AE%AD%E5%A4%B4%E5%87%BD%E6%95%B0/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>安卓下微信内置浏览器视频出现解析错误</title>
+    <link href="https://dclcats.github.io/hexo/2017/05/10/wx-web-video/"/>
+    <id>https://dclcats.github.io/hexo/2017/05/10/wx-web-video/</id>
+    <published>2017-05-10T07:52:06.000Z</published>
+    <updated>2021-09-04T16:42:49.604Z</updated>
+    
+    <summary type="html">
+    
+      安卓下微信内置浏览器视频报解析错误
+    
+    </summary>
+    
+      <category term="front-end" scheme="https://dclcats.github.io/hexo/categories/front-end/"/>
+    
+    
+      <category term="front-end" scheme="https://dclcats.github.io/hexo/tags/front-end/"/>
+    
+      <category term="javascript" scheme="https://dclcats.github.io/hexo/tags/javascript/"/>
+    
+      <category term="video" scheme="https://dclcats.github.io/hexo/tags/video/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>异步请求fetch之初体验</title>
+    <link href="https://dclcats.github.io/hexo/2017/04/26/async-fetch/"/>
+    <id>https://dclcats.github.io/hexo/2017/04/26/async-fetch/</id>
+    <published>2017-04-26T06:26:57.000Z</published>
+    <updated>2021-09-04T16:42:49.600Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;导读&quot;&gt;&lt;a href=&quot;#导读&quot; class=&quot;headerlink&quot; title=&quot;导读&quot;&gt;&lt;/a&gt;导读&lt;/h2&gt;&lt;p&gt;传递信息到服务器，从服务器获取信息，是前端发展的重中之重，尤其是现在前后端分离的大前提下，前后端的数据交互是前端的必修科目了。从很久之前到现在，ajax都是每个前端入行者必须技能。
+    
+    </summary>
+    
+      <category term="front-end" scheme="https://dclcats.github.io/hexo/categories/front-end/"/>
+    
+    
+      <category term="javascript" scheme="https://dclcats.github.io/hexo/tags/javascript/"/>
+    
+      <category term="fetch" scheme="https://dclcats.github.io/hexo/tags/fetch/"/>
+    
+      <category term="异步请求" scheme="https://dclcats.github.io/hexo/tags/%E5%BC%82%E6%AD%A5%E8%AF%B7%E6%B1%82/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>JavaScript之深拷贝&amp;浅拷贝</title>
+    <link href="https://dclcats.github.io/hexo/2016/09/24/javascript-clone/"/>
+    <id>https://dclcats.github.io/hexo/2016/09/24/javascript-clone/</id>
+    <published>2016-09-24T02:46:53.000Z</published>
+    <updated>2021-09-04T16:42:49.600Z</updated>
+    
+    <summary type="html">
+    
+      JavaScript之深拷贝和浅拷贝，概念分析以及简单的实现
+    
+    </summary>
+    
+      <category term="front-end" scheme="https://dclcats.github.io/hexo/categories/front-end/"/>
+    
+    
+      <category term="front-end" scheme="https://dclcats.github.io/hexo/tags/front-end/"/>
+    
+      <category term="javascript" scheme="https://dclcats.github.io/hexo/tags/javascript/"/>
+    
+      <category term="深拷贝&amp;浅拷贝" scheme="https://dclcats.github.io/hexo/tags/%E6%B7%B1%E6%8B%B7%E8%B4%9D-%E6%B5%85%E6%8B%B7%E8%B4%9D/"/>
+    
+  </entry>
+  
+</feed>

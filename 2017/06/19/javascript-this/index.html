@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.9.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/hexo/images/ico/favicon.jpg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/hexo/images/ico/favicon.jpg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/hexo/images/ico/favicon.jpg">
+  <link rel="mask-icon" href="/hexo/images/ico/favicon.jpg" color="#222">
+
+<link rel="stylesheet" href="/hexo/css/main.css">
+
+
+<link rel="stylesheet" href="/hexo/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"dclcats.github.io","root":"/hexo/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="this指向问题分析、总结，包括箭头函数内部的this指向">
+<meta name="keywords" content="front-end,javascript,箭头函数">
+<meta property="og:type" content="article">
+<meta property="og:title" content="this 指向详细解析（箭头函数）">
+<meta property="og:url" content="https://dclcats.github.io/hexo/2017/06/19/javascript-this/index.html">
+<meta property="og:site_name" content="Chris&#39;s blog">
+<meta property="og:description" content="this指向问题分析、总结，包括箭头函数内部的this指向">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2021-09-04T16:42:49.600Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="this 指向详细解析（箭头函数）">
+<meta name="twitter:description" content="this指向问题分析、总结，包括箭头函数内部的this指向">
+
+<link rel="canonical" href="https://dclcats.github.io/hexo/2017/06/19/javascript-this/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>this 指向详细解析（箭头函数） | Chris's blog</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?d231286df77e6e10cf95edf3700d51f1";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/hexo/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Chris's blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/hexo/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/hexo/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/hexo/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/hexo/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/hexo/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://dclcats.github.io/hexo/2017/06/19/javascript-this/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/hexo/images/avatar.jpg">
+      <meta itemprop="name" content="Chris">
+      <meta itemprop="description" content="Chris's blog">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Chris's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          this 指向详细解析（箭头函数）
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2017-06-19 15:14:01" itemprop="dateCreated datePublished" datetime="2017-06-19T15:14:01+08:00">2017-06-19</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-09-05 00:42:49" itemprop="dateModified" datetime="2021-09-05T00:42:49+08:00">2021-09-05</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/hexo/categories/front-end/" itemprop="url" rel="index"><span itemprop="name">front-end</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+            <div class="post-description">this指向问题分析、总结，包括箭头函数内部的this指向</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>this 指向问题是入坑前端必须了解知识点，现在迎来了ES6时代，因为箭头函数的出现，所以感觉有必要对 this 问题梳理一下，遂有此文</p>
+<p>在非箭头函数下， this 指向调用其所在函数的对象，而且是离谁近就是指向谁（此对于常规对象，原型链， getter &amp; setter等都适用）；构造函数下，this与被创建的新对象绑定；DOM事件，this指向触发事件的元素；内联事件分两种情况，bind绑定， call &amp; apply 方法等， 容以下一步一步讨论。箭头函数也会穿插其中进行讨论。</p>
+<a id="more"></a>
+<h2 id="全局环境下"><a href="#全局环境下" class="headerlink" title="全局环境下"></a>全局环境下</h2><p>在全局环境下，this 始终指向全局对象（window）, 无论是否严格模式；</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">console.log(this.document === document); // true</span><br><span class="line"></span><br><span class="line">// 在浏览器中，全局对象为 window 对象：</span><br><span class="line">console.log(this === window); // true</span><br><span class="line"></span><br><span class="line">this.a = 37;</span><br><span class="line">console.log(window.a); // 37</span><br></pre></td></tr></table></figure>
+<h2 id="函数上下文调用"><a href="#函数上下文调用" class="headerlink" title="函数上下文调用"></a>函数上下文调用</h2><h3 id="函数直接调用"><a href="#函数直接调用" class="headerlink" title="函数直接调用"></a>函数直接调用</h3><p>普通函数内部的this分两种情况，严格模式和非严格模式。</p>
+<p>严格模式下，this 的值默认为全局对象window</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">function f1()&#123;</span><br><span class="line">  return this;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">f1() === window; // true</span><br></pre></td></tr></table></figure>
+<p>非严格模式， this的值为undefined</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">function f2()&#123;</span><br><span class="line">  &quot;use strict&quot;; // 这里是严格模式</span><br><span class="line">  return this;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">f2() === undefined; // true</span><br></pre></td></tr></table></figure>
+<h3 id="对象中的this"><a href="#对象中的this" class="headerlink" title="对象中的this"></a>对象中的this</h3><p>对象内部方法的this指向调用这些方法的对象， </p>
+<ol>
+<li>函数的定义位置不影响其this指向，this指向只和调用函数的对象有关。</li>
+<li>多层嵌套的对象，内部方法的this指向离被调用函数最近的对象（window也是对象，其内部对象调用方法的this指向内部对象， 而非window）。</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">//1</span><br><span class="line">var o = &#123;</span><br><span class="line">  prop: 37,</span><br><span class="line">  f: function() &#123;</span><br><span class="line">    return this.prop;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line">console.log(o.f());  //37</span><br><span class="line">var a = o.f;</span><br><span class="line">console.log(a()):  //undefined</span><br><span class="line"></span><br><span class="line">var o = &#123;prop: 37&#125;;</span><br><span class="line"></span><br><span class="line">function independent() &#123;</span><br><span class="line">  return this.prop;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">o.f = independent;</span><br><span class="line"></span><br><span class="line">console.log(o.f()); // logs 37</span><br><span class="line"></span><br><span class="line">//2</span><br><span class="line">o.b = &#123;</span><br><span class="line">  g: independent,</span><br><span class="line">  prop: 42</span><br><span class="line">&#125;;</span><br><span class="line">console.log(o.b.g()); // logs 42</span><br></pre></td></tr></table></figure>
+<h4 id="原型链中this"><a href="#原型链中this" class="headerlink" title="原型链中this"></a>原型链中this</h4><p>原型链中的方法的this仍然指向调用它的对象，与以上讨论一致；看个例子，<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">var o = &#123;</span><br><span class="line">  f : function()&#123; </span><br><span class="line">    return this.a + this.b; </span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line">var p = Object.create(o);</span><br><span class="line">p.a = 1;</span><br><span class="line">p.b = 4;</span><br><span class="line"></span><br><span class="line">console.log(p.f()); // 5</span><br></pre></td></tr></table></figure></p>
+<p>可以看出， 在p中没有属性f，当执行p.f()时，会查找p的原型链，找到 f 函数并执行，但这与函数内部this指向对象 p 没有任何关系，只需记住谁调用指向谁。</p>
+<p>以上对于函数作为getter &amp; setter 调用时同样适用。</p>
+<h3 id="构造函数中this"><a href="#构造函数中this" class="headerlink" title="构造函数中this"></a>构造函数中this</h3><p>构造函数中的this与被创建的新对象绑定。</p>
+<p>注意：当构造器返回的默认值是一个this引用的对象时，可以手动设置返回其他的对象，如果返回值不是一个对象，返回this。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">function C()&#123;</span><br><span class="line">  this.a = 37;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var o = new C();</span><br><span class="line">console.log(o.a); // logs 37</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">function C2()&#123;</span><br><span class="line">  this.a = 37;</span><br><span class="line">  return &#123;a:38&#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var b = new C2();</span><br><span class="line">console.log(b.a); // logs 38</span><br></pre></td></tr></table></figure>
+<p>以上两个例子内部的this都指向对象o, 看到这里的你不妨在控制台执行下以上代码，看看对象 o 和 b ，这些是属于构造函数的内容了，此处不多做介绍。（C2函数中的this.a = 37 对整个过程完全没有影响的， 可以被忽略的）。</p>
+<h3 id="call-amp-apply"><a href="#call-amp-apply" class="headerlink" title="call &amp; apply"></a>call &amp; apply</h3><p>当函数通过Function对象的原型中继承的方法 call() 和 apply() 方法调用时， 其函数内部的this值可绑定到 call() &amp; apply() 方法指定的第一个对象上， 如果第一个参数不是对象，JavaScript内部会尝试将其转换成对象然后指向它。</p>
+<p>例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">function add(c, d)&#123;</span><br><span class="line">  return this.a + this.b + c + d;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var o = &#123;a:1, b:3&#125;;</span><br><span class="line"></span><br><span class="line">add.call(o, 5, 7); // 1 + 3 + 5 + 7 = 16</span><br><span class="line"></span><br><span class="line">add.apply(o, [10, 20]); // 1 + 3 + 10 + 20 = 34</span><br><span class="line"></span><br><span class="line">function tt() &#123;</span><br><span class="line">  console.log(this);</span><br><span class="line">&#125;</span><br><span class="line">// 返回对象见下图（图1）</span><br><span class="line">tt.call(5);  // Number &#123;[[PrimitiveValue]]: 5&#125; </span><br><span class="line">tt.call(&apos;asd&apos;); // String &#123;0: &quot;a&quot;, 1: &quot;s&quot;, 2: &quot;d&quot;, length: 3, [[PrimitiveValue]]: &quot;asd&quot;&#125;</span><br></pre></td></tr></table></figure>
+<p><img data-src="./images/1497928029232.jpg" alt="图1"></p>
+<h3 id="bind-方法"><a href="#bind-方法" class="headerlink" title="bind 方法"></a>bind 方法</h3><p>bind方法在ES5引入， 在Function的原型链上， <code>Function.prototype.bind</code>。通过bind方法绑定后， 函数将被永远绑定在其第一个参数对象上， 而无论其在什么情况下被调用。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">function f()&#123;</span><br><span class="line">  return this.a;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var g = f.bind(&#123;a:&quot;azerty&quot;&#125;);</span><br><span class="line">console.log(g()); // azerty</span><br><span class="line"></span><br><span class="line">var o = &#123;a:37, f:f, g:g&#125;;</span><br><span class="line">console.log(o.f(), o.g()); // 37, azerty</span><br></pre></td></tr></table></figure>
+<h3 id="DOM-事件处理函数中的-this-amp-内联事件中的-this"><a href="#DOM-事件处理函数中的-this-amp-内联事件中的-this" class="headerlink" title="DOM 事件处理函数中的 this &amp; 内联事件中的 this"></a>DOM 事件处理函数中的 this &amp; 内联事件中的 this</h3><p><strong>DOM事件处理函数</strong></p>
+<ol>
+<li>当函数被当做监听事件处理函数时， 其 this 指向触发该事件的元素 （针对于addEventListener事件）</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"> // 被调用时，将关联的元素变成蓝色</span><br><span class="line">function bluify(e)&#123;</span><br><span class="line">  //在控制台打印出所点击元素</span><br><span class="line">  console.log(this);</span><br><span class="line">  //阻止时间冒泡</span><br><span class="line">  e.stopPropagation();</span><br><span class="line">  //阻止元素的默认事件</span><br><span class="line">  e.preventDefault();      </span><br><span class="line">  this.style.backgroundColor = &apos;#A5D9F3&apos;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 获取文档中的所有元素的列表</span><br><span class="line">var elements = document.getElementsByTagName(&apos;*&apos;);</span><br><span class="line"></span><br><span class="line">// 将bluify作为元素的点击监听函数，当元素被点击时，就会变成蓝色</span><br><span class="line">for(var i=0 ; i&lt;elements.length ; i++)&#123;</span><br><span class="line">  elements[i].addEventListener(&apos;click&apos;, bluify, false);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>以上代码建议在网页中执行以下，看下效果。</p>
+<p><strong>内联事件</strong><br>内联事件中的this指向分两种情况：</p>
+<ol>
+<li>当代码被内联处理函数调用时，它的this指向监听器所在的DOM元素</li>
+<li>当代码被包括在函数内部执行时，其this指向等同于 <strong><strong>函数直接调用</strong></strong>的情况，即在非严格模式指向全局对象window， 在严格模式指向undefined</li>
+</ol>
+<p><img data-src="./images/1497930173633.jpg" alt="代码块"></p>
+<p>页面的代码块</p>
+<p><img data-src="./images/1497930076697.jpg" alt="浏览器显示的按钮"></p>
+<p>在浏览器内显示三个按钮</p>
+<p><img data-src="./images/1497930106366.jpg" alt="依次点击后在控制台的输出值"></p>
+<p>依次点击上边的三个按钮后在控制台的输出结果，</p>
+<p>建议自己操作一遍以便于更好的理解。</p>
+<h3 id="setTimeout-amp-setInterval"><a href="#setTimeout-amp-setInterval" class="headerlink" title="setTimeout &amp; setInterval"></a>setTimeout &amp; setInterval</h3><p>对于延时函数内部的回调函数的this指向全局对象window（当然我们可以通过bind方法改变其内部函数的this指向）<br>看下边代码及截图</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">//默认情况下代码</span><br><span class="line">function Person() &#123;  </span><br><span class="line">    this.age = 0;  </span><br><span class="line">    setTimeout(function() &#123;</span><br><span class="line">        console.log(this);</span><br><span class="line">    &#125;, 3000);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var p = new Person();//3秒后返回 window 对象</span><br><span class="line">==============================================</span><br><span class="line">//通过bind绑定</span><br><span class="line">function Person() &#123;  </span><br><span class="line">    this.age = 0;  </span><br><span class="line">    setTimeout((function() &#123;</span><br><span class="line">        console.log(this);</span><br><span class="line">    &#125;).bind(this), 3000);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var p = new Person();//3秒后返回构造函数新生成的对象 Person&#123;...&#125;</span><br></pre></td></tr></table></figure>
+<p><img data-src="./images/1497939888703.jpg" alt="默认情况下this指向情况"></p>
+<p><img data-src="./images/1497939918422.jpg" alt="通过bind绑定后内部this指向"></p>
+<h2 id="箭头函数中的-this"><a href="#箭头函数中的-this" class="headerlink" title="箭头函数中的 this"></a>箭头函数中的 this</h2><p>由于箭头函数不绑定this， 它会捕获其所在（即定义的位置）上下文的this值， 作为自己的this值，</p>
+<ol>
+<li>所以 call() / apply() / bind() 方法对于箭头函数来说只是传入参数，对它的 this 毫无影响。</li>
+<li>考虑到 this 是词法层面上的，严格模式中与 this 相关的规则都将被忽略。（可以忽略是否在严格模式下的影响）</li>
+</ol>
+<p>因为箭头函数可以捕获其所在上下文的this值 所以</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">function Person() &#123;  </span><br><span class="line">    this.age = 0;  </span><br><span class="line">    setInterval(() =&gt; &#123;</span><br><span class="line">        // 回调里面的 `this` 变量就指向了期望的那个对象了</span><br><span class="line">        this.age++;</span><br><span class="line">    &#125;, 3000);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var p = new Person();</span><br></pre></td></tr></table></figure>
+<p>以上代码可以得到我们所以希望的值，下图可以看到，在setTimeout中的this指向了构造函数新生成的对象，而普通函数指向了全局window对象</p>
+<p><img data-src="./images/1497939580720.jpg" alt="箭头函数在setTimeout中"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">var adder = &#123;</span><br><span class="line">  base : 1,</span><br><span class="line">    </span><br><span class="line">  add : function(a) &#123;</span><br><span class="line">    var f = v =&gt; v + this.base;</span><br><span class="line">    return f(a);</span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  addThruCall: function inFun(a) &#123;</span><br><span class="line">    var f = v =&gt; v + this.base;</span><br><span class="line">    var b = &#123;</span><br><span class="line">      base : 2</span><br><span class="line">    &#125;;</span><br><span class="line">            </span><br><span class="line">    return f.call(b, a);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">console.log(adder.add(1));         // 输出 2</span><br><span class="line">console.log(adder.addThruCall(1)); // 仍然输出 2（而不是3，其内部的this并没有因为call() 而改变，其this值仍然为函数inFun的this值，指向对象adder</span><br></pre></td></tr></table></figure>
+<p>bind() &amp; apply() 读者可以自行测试</p>
+<p>对于是否严格模式示例代码（可以复制进控制台进行验证）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">var f = () =&gt; &#123;&apos;use strict&apos;; return this&#125;;</span><br><span class="line">var p = () =&gt; &#123; return this&#125;;</span><br><span class="line">console.log(1,f() === window);</span><br><span class="line">console.log(2,f() === p());</span><br><span class="line">//1 true</span><br><span class="line">//2 true</span><br></pre></td></tr></table></figure>
+<p><img data-src="./images/1497932186846.jpg" alt="测试"></p>
+<p>以上的箭头函数都是在方法内部，总之都是以非方法的方式使用，如果将箭头函数当做一个方法使用会怎样呢？<br>上例子</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">var obj = &#123;</span><br><span class="line">  i: 10,</span><br><span class="line">  b: () =&gt; console.log(this.i, this),</span><br><span class="line">  c: function() &#123;</span><br><span class="line">    console.log( this.i, this)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">obj.b();  // undefined window&#123;...&#125;</span><br><span class="line">obj.c();  // 10 Object &#123;...&#125;</span><br></pre></td></tr></table></figure>
+<p><img data-src="./images/1497939013062.jpg" alt="返回值"><br>可以看到，作为方法的箭头函数this指向全局window对象，而普通函数则指向调用它的对象</p>
+<p>以上为个人学习整理内容， 文中例子参考MDN， 欢迎交流学习</p>
+<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><p><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Operators/this#%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0%E4%B8%AD%E7%9A%84_this" target="_blank" rel="noopener">this - JavaScript | MDN</a><br><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Functions/arrow_functions#%E5%83%8F%E6%96%B9%E6%B3%95%E4%B8%80%E6%A0%B7%E4%BD%BF%E7%94%A8%E7%AE%AD%E5%A4%B4%E5%87%BD%E6%95%B0" target="_blank" rel="noopener">箭头函数 - JavaScript | MDN</a></p>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/hexo/pay/alipay-reward-image.jpeg" alt="Chris 支付宝">
+        <p>支付宝</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/hexo/pay/wechat-reward-image.jpeg" alt="Chris 微信支付">
+        <p>微信支付</p>
+      </div>
+
+  </div>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/hexo/tags/front-end/" rel="tag"># front-end</a>
+              <a href="/hexo/tags/javascript/" rel="tag"># javascript</a>
+              <a href="/hexo/tags/箭头函数/" rel="tag"># 箭头函数</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/hexo/2017/05/10/wx-web-video/" rel="prev" title="安卓下微信内置浏览器视频出现解析错误">
+      <i class="fa fa-chevron-left"></i> 安卓下微信内置浏览器视频出现解析错误
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/hexo/2017/08/07/web-mobile-drag/" rel="next" title="移动端实现拖动操作">
+      移动端实现拖动操作 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#全局环境下"><span class="nav-number">2.</span> <span class="nav-text">全局环境下</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#函数上下文调用"><span class="nav-number">3.</span> <span class="nav-text">函数上下文调用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#函数直接调用"><span class="nav-number">3.1.</span> <span class="nav-text">函数直接调用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#对象中的this"><span class="nav-number">3.2.</span> <span class="nav-text">对象中的this</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#原型链中this"><span class="nav-number">3.2.1.</span> <span class="nav-text">原型链中this</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#构造函数中this"><span class="nav-number">3.3.</span> <span class="nav-text">构造函数中this</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#call-amp-apply"><span class="nav-number">3.4.</span> <span class="nav-text">call &amp; apply</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#bind-方法"><span class="nav-number">3.5.</span> <span class="nav-text">bind 方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DOM-事件处理函数中的-this-amp-内联事件中的-this"><span class="nav-number">3.6.</span> <span class="nav-text">DOM 事件处理函数中的 this &amp; 内联事件中的 this</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#setTimeout-amp-setInterval"><span class="nav-number">3.7.</span> <span class="nav-text">setTimeout &amp; setInterval</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#箭头函数中的-this"><span class="nav-number">4.</span> <span class="nav-text">箭头函数中的 this</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考文献"><span class="nav-number">5.</span> <span class="nav-text">参考文献</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Chris"
+      src="/hexo/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Chris</p>
+  <div class="site-description" itemprop="description">Chris's blog</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/hexo/archives/">
+        
+          <span class="site-state-item-count">11</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/hexo/categories/">
+          
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/hexo/tags/">
+          
+        <span class="site-state-item-count">28</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/dclcats/" title="GitHub → https://github.com/dclcats/" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.cnblogs.com/dongcanliang/" title="cnblogs → https://www.cnblogs.com/dongcanliang/" rel="noopener" target="_blank"><i class="fas fa-blog fa-fw"></i>cnblogs</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/u/3021649775" title="Weibo → https://weibo.com/u/3021649775" rel="noopener" target="_blank"><i class="fab fa-weibo fa-fw"></i>Weibo</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:chichucan@126.com" title="E-Mail → mailto:chichucan@126.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2017 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Chris</span>
+</div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/hexo/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/pangu@4/dist/browser/pangu.min.js"></script>
+  <script src="/hexo/lib/velocity/velocity.min.js"></script>
+  <script src="/hexo/lib/velocity/velocity.ui.min.js"></script>
+<script src="/hexo/js/utils.js"></script><script src="/hexo/js/motion.js"></script>
+<script src="/hexo/js/schemes/pisces.js"></script>
+<script src="/hexo/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+  <script src="//cdn.jsdelivr.net/npm/quicklink@1/dist/quicklink.umd.js"></script>
+  <script>
+      window.addEventListener('load', () => {
+      quicklink({
+        timeout : 3000,
+        priority: true,
+        ignores : [uri => uri.includes('#'),uri => uri === 'https://dclcats.github.io/hexo/2017/06/19/javascript-this/',]
+      });
+      });
+  </script>
+
+</body>
+</html>

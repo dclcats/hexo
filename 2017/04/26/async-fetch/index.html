@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.9.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/hexo/images/ico/favicon.jpg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/hexo/images/ico/favicon.jpg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/hexo/images/ico/favicon.jpg">
+  <link rel="mask-icon" href="/hexo/images/ico/favicon.jpg" color="#222">
+
+<link rel="stylesheet" href="/hexo/css/main.css">
+
+
+<link rel="stylesheet" href="/hexo/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"dclcats.github.io","root":"/hexo/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="导读传递信息到服务器，从服务器获取信息，是前端发展的重中之重，尤其是现在前后端分离的大前提下，前后端的数据交互是前端的必修科目了。从很久之前到现在，ajax都是每个前端入行者必须技能。">
+<meta name="keywords" content="javascript,fetch,异步请求">
+<meta property="og:type" content="article">
+<meta property="og:title" content="异步请求fetch之初体验">
+<meta property="og:url" content="https://dclcats.github.io/hexo/2017/04/26/async-fetch/index.html">
+<meta property="og:site_name" content="Chris&#39;s blog">
+<meta property="og:description" content="导读传递信息到服务器，从服务器获取信息，是前端发展的重中之重，尤其是现在前后端分离的大前提下，前后端的数据交互是前端的必修科目了。从很久之前到现在，ajax都是每个前端入行者必须技能。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2021-09-04T16:42:49.600Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="异步请求fetch之初体验">
+<meta name="twitter:description" content="导读传递信息到服务器，从服务器获取信息，是前端发展的重中之重，尤其是现在前后端分离的大前提下，前后端的数据交互是前端的必修科目了。从很久之前到现在，ajax都是每个前端入行者必须技能。">
+
+<link rel="canonical" href="https://dclcats.github.io/hexo/2017/04/26/async-fetch/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>异步请求fetch之初体验 | Chris's blog</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?d231286df77e6e10cf95edf3700d51f1";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/hexo/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Chris's blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/hexo/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/hexo/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/hexo/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/hexo/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/hexo/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://dclcats.github.io/hexo/2017/04/26/async-fetch/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/hexo/images/avatar.jpg">
+      <meta itemprop="name" content="Chris">
+      <meta itemprop="description" content="Chris's blog">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Chris's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          异步请求fetch之初体验
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2017-04-26 14:26:57" itemprop="dateCreated datePublished" datetime="2017-04-26T14:26:57+08:00">2017-04-26</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-09-05 00:42:49" itemprop="dateModified" datetime="2021-09-05T00:42:49+08:00">2021-09-05</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/hexo/categories/front-end/" itemprop="url" rel="index"><span itemprop="name">front-end</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="导读"><a href="#导读" class="headerlink" title="导读"></a>导读</h2><p>传递信息到服务器，从服务器获取信息，是前端发展的重中之重，尤其是现在前后端分离的大前提下，前后端的数据交互是前端的必修科目了。从很久之前到现在，ajax都是每个前端入行者必须技能。<a id="more"></a>当然为了便于开发者， 各种三方工具将ajax包装，然后给开发者使用，jquery、axios等等。这都不是今天的重点， 今天要说一个JavaScript原生的获取资源接口 Fetch API， 虽然各大浏览器支持率不高，但是这样的一个概念确实值得了解学习，并且现在我们可以通过polyfill来实现不同浏览器的兼容性问题</p>
+<h2 id="Fetch"><a href="#Fetch" class="headerlink" title="Fetch"></a>Fetch</h2><p>先来看看各个浏览器对fetch的原生支持情况，可以看到支持性并不是很高，safari在10.1 之后才支持，ios更是10.3之后才支持，IE完全不支持。当然新技术的发展总会经历这个过程。不过，想提前尝尝鲜也是可以的我们可以使用 <a href="https://github.com/github/fetch" target="_blank" rel="noopener">polyfill</a></p>
+<p><img data-src="./images/1493189699882.jpg" alt="Fetch原生支持" title="Fetch原生支持"></p>
+<p>声明：以下的所有代码测试都是基于 Chrome 实现</p>
+<p>废话不多说，</p>
+<p>fetch 返回的是一个Promise，我们先来看一个基本的 fetch 结构</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">fetch(url, option).then( res =&gt; &#123;</span><br><span class="line">    //do something</span><br><span class="line">&#125;).catch(err =&gt; &#123;</span><br><span class="line">    //do something</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>fetch 的url 参数是必须的，option参数可选<br>以上就是整个的请求以及处理过程， 惊不惊喜，意不意外，没错就是这么简单清晰明了，没有原生ajax的那些 <code>XMLHttpRequest</code> bulabula 一大堆。也不需要再额外引入一个jquery包（当然项目中使用到的话除外）。当然因为fetch的返回值是一个Promise， 不需要再去使用回调函数从而有效避免回调地狱。</p>
+<p>当然，fetch不止于此，我们的需求也不止于此，我们可能需要post请求，可能需要跨域请求，控制从服务器获取的信息的格式（json、string、blob等），此时，便需要设置参数信息，对返回信息进行处理。</p>
+<h3 id="option"><a href="#option" class="headerlink" title="option"></a>option</h3><p>来看看fetch的可选参数option的可选值，fetch默认是get方法，也可以在option中设置为其他方法</p>
+<ul>
+<li>method：get | post 等方法</li>
+<li>headers：任何你想加到请求中的头，可以是对象字面量的方式也可以是通过 Headers</li>
+<li>body：发送给服务器的信息， 可以是JSON, BufferSource, FormData, URLSearchParams, 或 USVString。注意get和HEAD请求没有body</li>
+<li>mode：请求模式， 可选值为 cors, no-cors, same-origin, 或 navigate，cors-with-forced-preflight。默认值应该为 cors。但在Chrome中，Chrome 47 之前的版本默认值为 no-cors ，自Chrome 47起，默认值为same-origin。–MDN Request</li>
+<li>credentials：在请求中是否需要凭据。在请求数据中根据是否需要携带Cookie 来设置其值，可选值为omit（在请求中不懈怠认证凭据（Cookie））, same-origin（在同原站点下包含凭据）, 或 include（对所有网站包含认证凭据）</li>
+<li>cache：如何处理缓存，可取值有 default | no-store | no-cache | reload | force-cache | only-if-cached</li>
+<li>redirect：对重定向的处理，可取值 follow, error,  redirect</li>
+<li>referrer：一个指定了no-referrer, client, 或一个 URL的 USVString 。默认值是client.</li>
+<li>integrity: 包括请求的 subresource integrity 值 (e.g.,  sha256-BpfBw7ivV8q2jLiT13fxDYAe2tJllusRSZ273h2nFSE=).</li>
+</ul>
+<h4 id="mode"><a href="#mode" class="headerlink" title="mode"></a>mode</h4><p>mode 参数便于 CORS， 设置不同的值可以使在不同的请求方式下，使得请求有效。</p>
+<ul>
+<li>cors：在同域和带有CORS响应头的跨域下可以请求成功</li>
+<li>no-cors：常用于在跨域不带CORS场景下， 此时请求发出并且会有响应，但是此时type为“opaque”， status为0 ，js获取不到返回数据。</li>
+<li>same-origin：在同域下请求</li>
+<li>cors-with-forced-preflight：在请求前进行preflight 检查</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">fetch(&quot;https://api.github.com/users/mzabriskie&quot;, &#123;mode: &quot;no-cors&quot;&#125;).then(response =&gt; &#123;</span><br><span class="line">	return response;</span><br><span class="line">&#125;).then(function(data) &#123;</span><br><span class="line">	console.log(data);</span><br><span class="line">&#125;).catch(function(e) &#123;</span><br><span class="line">	console.log(&quot;Oops, error&quot;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>执行以上代码返回</p>
+<p><img data-src="./images/1493195650417.jpg" alt="no-cors返回值信息" title="no-cors返回值信息"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">fetch(&quot;https://api.github.com/users/mzabriskie&quot;, &#123;mode: &quot;cors&quot;&#125;).then(response =&gt; &#123;</span><br><span class="line">	return response;</span><br><span class="line">&#125;).then(function(data) &#123;</span><br><span class="line">	console.log(data);</span><br><span class="line">&#125;).catch(function(e) &#123;</span><br><span class="line">	console.log(&quot;Oops, error&quot;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>以上代码返回</p>
+<p><img data-src="./images/1493195978930.jpg" alt="cors返回值" title="cors返回值"></p>
+<h4 id="headers"><a href="#headers" class="headerlink" title="headers"></a>headers</h4><p>该参数的值可以为对象字面量</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">headers： &#123;</span><br><span class="line">    &quot;Content-Type&quot;: &quot;application/json&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>也可以创建 Headers 对象，通过append() 和delete() 等方法对其进行操作，</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">var headers = new Headers();</span><br><span class="line">headers.append( &quot;Content-Type&quot;, &quot;application/json&quot;);</span><br><span class="line">fetch(url, &#123;</span><br><span class="line">    method: post,</span><br><span class="line">	headers: headers,</span><br><span class="line">	body: &#123;</span><br><span class="line">	    name: &quot;jack&quot;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h3 id="Request"><a href="#Request" class="headerlink" title="Request"></a>Request</h3><p>Fetch 提供了对 Request 和 Response （以及其他与网络请求有关的）对象的通用定义。所以在一个Fetch请求中，完全可以只使用Request 和 Response两个对象，通过Request 设置参数，通过Response 对返回值进行处理。<br>一个Fetch还可以写成以下形式</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">var myHeaders = new Headers();</span><br><span class="line">myHeaders.append(&apos;Content-Type&apos;, &apos;image/jpeg&apos;);</span><br><span class="line"></span><br><span class="line">var option = &#123; method: &apos;GET&apos;,</span><br><span class="line">    headers: myHeaders,</span><br><span class="line">    mode: &apos;cors&apos;,</span><br><span class="line">    cache: &apos;default&apos; &#125;;</span><br><span class="line"></span><br><span class="line">var myRequest = new Request(&apos;https://api.github.com/users/mzabriskie&apos;,option);</span><br><span class="line"></span><br><span class="line">fetch(myRequest).then(function(response) &#123;</span><br><span class="line">    ... </span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>参数设置如 option 下介绍</p>
+<h3 id="Response"><a href="#Response" class="headerlink" title="Response"></a>Response</h3><p>Fetch API 的Response接口呈现了对一次请求的响应数据</p>
+<p>其包含一次请求的响应信息，响应状态等。<br>包含的一些常用属性（只读）</p>
+<ul>
+<li>url：包含请求地址url</li>
+<li>status：响应状态码（200成功）</li>
+<li>ok：一个布尔值标识请求成功或失败</li>
+<li>statusText：包含与状态码对应的状态信息</li>
+<li>headers：包含于请求关联的Headers对象</li>
+</ul>
+<p><strong>方法</strong></p>
+<ul>
+<li>clone()： 创建Response对象的克隆</li>
+</ul>
+<p>Response可以使用以下方法，对响应数据进行处理</p>
+<p>arrayBuffer()、blob()、formData()、json()、text()等<br>以下为使用json() 方法返回的数据信息</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">fetch(&quot;https://api.github.com/users/mzabriskie&quot;, &#123;mode: &quot;no-cors&quot;&#125;).then(response =&gt; &#123;</span><br><span class="line">	return response.json();</span><br><span class="line">&#125;).then(function(data) &#123;</span><br><span class="line">	console.log(data);</span><br><span class="line">&#125;).catch(function(e) &#123;</span><br><span class="line">	console.log(&quot;Oops, error&quot;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p><img data-src="./images/1493195894208.jpg" alt="cors json()返回值" title="cors json()返回值"></p>
+<h4 id="检测请求是否成功"><a href="#检测请求是否成功" class="headerlink" title="检测请求是否成功"></a>检测请求是否成功</h4><p>同XMLHttpResponse一样，请求发出，服务器发出返回码，除了407以外，其不会进入错误捕捉。也就是说除了网络故障或者跨域请求被拒绝等请求失败的情况，fetch() 的Promise是不会 reject的，所以为了请求能按照我们的预期实现，我们必须加一个判断，判断请求是否成功并返回了我们想要的数据。我们当然可以像 XMLHttpResponse 一样对响应的状态码进行判断，不过我们还有选择，对response.ok 这个布尔值入手。<br>细心的同学可能从之前的截图中看到，在请求成功和失败的情况下，属性 ok 的值 分别为true 和false 这里就不赘余天价截图了，上代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">fetch(&quot;https://api.github.com/users/mzabriskie&quot;, &#123;mode: &quot;cors&quot;&#125;).then(response =&gt; &#123;</span><br><span class="line">	if(response.ok) &#123;</span><br><span class="line">	    response.json().then(data =&gt; &#123;</span><br><span class="line">	        console.log(data);</span><br><span class="line">	    &#125;);</span><br><span class="line">	&#125; else &#123;</span><br><span class="line">	    console.log(&quot;请求不成功，状态码为&quot;, response.status);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;).catch(function(e) &#123;</span><br><span class="line">	console.log(&quot;Oops, error&quot;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>致此， 一个 fetch 的简单请求便完成了，但是fetch功能远不止这些</p>
+<p>fetch 与 ES7的async/await 搭配使用等等，路很长一步一脚印</p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Fetch_API" target="_blank" rel="noopener">Fetch API - Web API 接口 | MDN</a><br><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Request" target="_blank" rel="noopener">Request - Web API 接口 | MDN</a><br><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Headers" target="_blank" rel="noopener">Headers - Web API 接口 | MDN</a><br><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Response" target="_blank" rel="noopener">Response - Web API 接口 | MDN</a><br><a href="https://developer.mozilla.org/en-US/docs/Web/API/Body" target="_blank" rel="noopener">Body - Web APIs | MDN</a></p>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/hexo/pay/alipay-reward-image.jpeg" alt="Chris 支付宝">
+        <p>支付宝</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/hexo/pay/wechat-reward-image.jpeg" alt="Chris 微信支付">
+        <p>微信支付</p>
+      </div>
+
+  </div>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/hexo/tags/javascript/" rel="tag"># javascript</a>
+              <a href="/hexo/tags/fetch/" rel="tag"># fetch</a>
+              <a href="/hexo/tags/异步请求/" rel="tag"># 异步请求</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/hexo/2016/09/24/javascript-clone/" rel="prev" title="JavaScript之深拷贝&浅拷贝">
+      <i class="fa fa-chevron-left"></i> JavaScript之深拷贝&浅拷贝
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/hexo/2017/05/10/wx-web-video/" rel="next" title="安卓下微信内置浏览器视频出现解析错误">
+      安卓下微信内置浏览器视频出现解析错误 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#导读"><span class="nav-number">1.</span> <span class="nav-text">导读</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Fetch"><span class="nav-number">2.</span> <span class="nav-text">Fetch</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#option"><span class="nav-number">2.1.</span> <span class="nav-text">option</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#mode"><span class="nav-number">2.1.1.</span> <span class="nav-text">mode</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#headers"><span class="nav-number">2.1.2.</span> <span class="nav-text">headers</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Request"><span class="nav-number">2.2.</span> <span class="nav-text">Request</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Response"><span class="nav-number">2.3.</span> <span class="nav-text">Response</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#检测请求是否成功"><span class="nav-number">2.3.1.</span> <span class="nav-text">检测请求是否成功</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考链接"><span class="nav-number">3.</span> <span class="nav-text">参考链接</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Chris"
+      src="/hexo/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Chris</p>
+  <div class="site-description" itemprop="description">Chris's blog</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/hexo/archives/">
+        
+          <span class="site-state-item-count">11</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/hexo/categories/">
+          
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/hexo/tags/">
+          
+        <span class="site-state-item-count">28</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/dclcats/" title="GitHub → https://github.com/dclcats/" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.cnblogs.com/dongcanliang/" title="cnblogs → https://www.cnblogs.com/dongcanliang/" rel="noopener" target="_blank"><i class="fas fa-blog fa-fw"></i>cnblogs</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/u/3021649775" title="Weibo → https://weibo.com/u/3021649775" rel="noopener" target="_blank"><i class="fab fa-weibo fa-fw"></i>Weibo</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:chichucan@126.com" title="E-Mail → mailto:chichucan@126.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2017 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Chris</span>
+</div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/hexo/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/pangu@4/dist/browser/pangu.min.js"></script>
+  <script src="/hexo/lib/velocity/velocity.min.js"></script>
+  <script src="/hexo/lib/velocity/velocity.ui.min.js"></script>
+<script src="/hexo/js/utils.js"></script><script src="/hexo/js/motion.js"></script>
+<script src="/hexo/js/schemes/pisces.js"></script>
+<script src="/hexo/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+  <script src="//cdn.jsdelivr.net/npm/quicklink@1/dist/quicklink.umd.js"></script>
+  <script>
+      window.addEventListener('load', () => {
+      quicklink({
+        timeout : 3000,
+        priority: true,
+        ignores : [uri => uri.includes('#'),uri => uri === 'https://dclcats.github.io/hexo/2017/04/26/async-fetch/',]
+      });
+      });
+  </script>
+
+</body>
+</html>
