@@ -85,8 +85,8 @@ feed:
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
-  - type: leancloud_counter_security_sync
-#   type: git
-#   repo: https://github.com/dclcats/dclcats.github.io.git
-#   branch: master
-#   message: 
+  # - type: leancloud_counter_security_sync
+  type: git
+  repo: git@github.com:dclcats/hexo.git
+  branch: gh-pages
+  message: "deploy github pages"
